@@ -1,0 +1,74 @@
+.header {
+    background-color: #5D3FD3;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    height: 50px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    border-radius: 0; /* Remove rounding */
+    box-sizing: border-box; /* Ensure padding is included in width calculation */
+  }
+  
+  .header-icons {
+    display: flex;
+    align-items: center;
+  }
+  
+  .settings-icon {
+    margin-left: 20px;
+    cursor: pointer;
+    color: white; /* Ensure the icon is visible */
+    transition: transform 0.5s ease;
+  }
+  
+  .settings-icon.rotate {
+    transform: rotate(90deg); /* Rotate the icon 90 degrees */
+  }
+  
+  .search-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  .search-icon {
+    cursor: pointer;
+    color: white; /* Ensure the icon is visible */
+    transition: transform 0.5s ease;
+  }
+  
+  .search-input {
+    border: none;
+    outline: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: white;
+    color: black;
+    position: absolute;
+    right: 0;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    transition: width 0.3s ease, opacity 0.3s ease;
+  }
+  
+  .search-container.active .search-icon {
+    transform: translateX(-170px); /* Adjust the distance to make space for the input */
+  }
+  
+  .search-container.active .search-input {
+    width: 150px; /* Adjust the width as needed */
+    opacity: 1;
+    pointer-events: auto;
+    right: -10px; /* Ensure the search box appears at the right place */
+  }
+  
+  .settings-container {
+    position: relative;
+  }
+  

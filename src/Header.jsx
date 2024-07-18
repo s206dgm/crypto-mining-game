@@ -1,32 +1,53 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import './Header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSun, faMoon, faWallet } from '@fortawesome/free-solid-svg-icons';
+import { faCog, faSearch } from '@fortawesome/free-solid-svg-icons';
+import SettingsMenu from './SettingsMenu';
 
-function Header({ theme, toggleTheme, wallet, cryptocurrencies }) {
+const Header = () => {
+  const [searchActive, setSearchActive] = useState(false);
+  const [settingsActive, setSettingsActive] = useState(false);
+
+  const toggleSearch = () => {
+    setSearchActive(!searchActive);
+  };
+
+  const toggleSettings = () => {
+    setSettingsActive(!settingsActive);
+  };
+
+  const closeSettings = () => {
+    setSettingsActive(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (settingsActive && !event.target.closest('.settings-container') && !event.target.closest('.settings-icon')) {
+        closeSettings();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [settingsActive]);
+
   return (
-    <header className="App-header">
-      <div className="header-left">
-        <h1>Crypto Mining Simulator</h1>
-      </div>
-      <div className="header-center">
-        {cryptocurrencies.map(crypto => (
-          <div key={crypto.name} className="crypto-info">
-            <span>{crypto.name}: ${crypto.marketRate}</span>
-            <span>Optimal Mining Rate: {crypto.minHashRate}/s</span>
-          </div>
-        ))}
-      </div>
-      <div className="header-right">
-        <div className="wallet-info">
-          <FontAwesomeIcon icon={faWallet} />
-          <span>${wallet.toFixed(2)}</span>
+    <header className="header">
+      <div className="logo">Rykai Miner</div>
+      <div className="header-icons">
+        <div className={`search-container ${searchActive ? 'active' : ''}`}>
+          <FontAwesomeIcon icon={faSearch} className="search-icon" onClick={toggleSearch} />
+          <input type="text" className="search-input" placeholder="Search..." />
         </div>
-        <button className="theme-toggle" onClick={toggleTheme}>
-          <FontAwesomeIcon icon={theme === 'light' ? faMoon : faSun} />
-        </button>
+        <div className="settings-container">
+          <FontAwesomeIcon icon={faCog} className={`settings-icon ${settingsActive ? 'rotate' : ''}`} onClick={toggleSettings} />
+          <SettingsMenu active={settingsActive} />
+        </div>
       </div>
     </header>
   );
-}
+};
 
 export default Header;
